@@ -4,12 +4,18 @@ const User = require("./models/user");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const app = express();
-app.use(express.json());
-app.use(cookieParser());
+const cors = require("cors");
+
 const jwt = require("jsonwebtoken");
 const {userAuth} = require('./middleware/auth');
 
-
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 app.use("/", require("./Routes/AuthRequest"));
 app.use("/", require("./Routes/ProfileRequest"));
 app.use("/", require("./Routes/connectionRequest"));
